@@ -1,11 +1,28 @@
-# WaifUPnP 
+# ~~WaifUPnP~~ Dima's UPnP
+This is a fork of WaifUPNP, made to change the build system, set up GitHub packages and rebrand (because of professionalism).
+Why? [A networking library](https://github.com/DimasMod/JRakNet) used by the Java version of Dima's Mod kernel has a dependency of WaifUPnP, 
+and the original project has the following problems:
+- It uses the "ant" build system
+- It doesn't have a maven repository
+- It has a questionable name
+
+What this fork does to address these issues?
+The following:
+- Changes the build system to use Gradle
+- Renames the project
+- Adds a GitHub workflow to build maven packages pushed to the GitHub maven repository
+It also does these little tweaks:
+- Fixes two typos: `_extermely_` -> `_extremely_` (credits to this [PR](https://github.com/adolfintel/WaifUPnP/pull/18)) and `an UPnP` -> `a UPnP`
+- implements custom app names (credits to this [PR](https://github.com/adolfintel/WaifUPnP/pull/22))
+
+## Original README.md
 
 UPnP Port Forwarding for Java couldn't be any easier!
 
-WaifUPnP is an _extermely_ lightweight Java library that allows you to:
+WaifUPnP is an _extremely_ lightweight Java library that allows you to:
 
 - open/close TCP/UDP ports
-- check if there's an UPnP router available
+- check if there's a UPnP router available
 - check if a port is already mapped
 
 using literally 1 line of code, as it should be! 

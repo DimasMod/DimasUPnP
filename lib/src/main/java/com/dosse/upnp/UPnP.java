@@ -21,12 +21,13 @@ package com.dosse.upnp;
 /**
  * This class contains static methods that allow quick access to UPnP Port Mapping.<br>
  * Commands will be sent to the default gateway.
- * 
+ *
  * @author Federico
  */
 public class UPnP {
 
     private static Gateway defaultGW = null;
+    private static final String DEFAULT_APP_NAME = "WaifUPnP";
     private static final GatewayFinder finder = new GatewayFinder() {
         @Override
         public void gatewayFound(Gateway g) {
@@ -50,12 +51,12 @@ public class UPnP {
             }
         }
     }
-    
+
     /**
      * Is there an UPnP gateway?<br>
      * This method is blocking if UPnP is still initializing<br>
      * All UPnP commands will fail if UPnP is not available
-     * 
+     *
      * @return true if available, false if not
      */
     public static boolean isUPnPAvailable(){
@@ -65,30 +66,52 @@ public class UPnP {
 
     /**
      * Opens a TCP port on the gateway
-     * 
+     *
      * @param port TCP port (0-65535)
      * @return true if the operation was successful, false otherwise
      */
     public static boolean openPortTCP(int port) {
-        if(!isUPnPAvailable()) return false;
-        return defaultGW.openPort(port, false);
+        return openPortTCP(port, DEFAULT_APP_NAME);
     }
-    
+
+    /**
+     * Opens a TCP port on the gateway
+     *
+     * @param port TCP port (0-65535)
+     * @param appName custom app name to be used for the rule
+     * @return true if the operation was successful, false otherwise
+     */
+    public static boolean openPortTCP(int port, String appName) {
+        if(!isUPnPAvailable()) return false;
+        return defaultGW.openPort(port, false, appName);
+    }
+
     /**
      * Opens a UDP port on the gateway
-     * 
+     *
      * @param port UDP port (0-65535)
      * @return true if the operation was successful, false otherwise
      */
     public static boolean openPortUDP(int port) {
-        if(!isUPnPAvailable()) return false;
-        return defaultGW.openPort(port, true);
+        return openPortUDP(port, DEFAULT_APP_NAME);
     }
-    
+
+    /**
+     * Opens a UDP port on the gateway
+     *
+     * @param port UDP port (0-65535)
+     * @param appName custom app name to be used for the rule
+     * @return true if the operation was successful, false otherwise
+     */
+    public static boolean openPortUDP(int port, String appName) {
+        if(!isUPnPAvailable()) return false;
+        return defaultGW.openPort(port, true, appName);
+    }
+
     /**
      * Closes a TCP port on the gateway<br>
      * Most gateways seem to refuse to do this
-     * 
+     *
      * @param port TCP port (0-65535)
      * @return true if the operation was successful, false otherwise
      */
@@ -96,11 +119,11 @@ public class UPnP {
         if(!isUPnPAvailable()) return false;
         return defaultGW.closePort(port, false);
     }
-    
+
     /**
      * Closes a UDP port on the gateway<br>
      * Most gateways seem to refuse to do this
-     * 
+     *
      * @param port UDP port (0-65535)
      * @return true if the operation was successful, false otherwise
      */
@@ -108,10 +131,10 @@ public class UPnP {
         if(!isUPnPAvailable()) return false;
         return defaultGW.closePort(port, true);
     }
-    
+
     /**
      * Checks if a TCP port is mapped<br>
-     * 
+     *
      * @param port TCP port (0-65535)
      * @return true if the port is mapped, false otherwise
      */
@@ -119,10 +142,10 @@ public class UPnP {
         if(!isUPnPAvailable()) return false;
         return defaultGW.isMapped(port, false);
     }
-    
+
     /**
      * Checks if a UDP port is mapped<br>
-     * 
+     *
      * @param port UDP port (0-65535)
      * @return true if the port is mapped, false otherwise
      */
@@ -130,20 +153,20 @@ public class UPnP {
         if(!isUPnPAvailable()) return false;
         return defaultGW.isMapped(port, true);
     }
-    
+
     /**
      * Gets the external IP address of the default gateway
-     * 
+     *
      * @return external IP address as string, or null if not available
      */
     public static String getExternalIP(){
         if(!isUPnPAvailable()) return null;
         return defaultGW.getExternalIP();
     }
-    
+
     /**
      * Gets the internal IP address of this machine
-     * 
+     *
      * @return internal IP address as string, or null if not available
      */
     public static String getLocalIP(){
